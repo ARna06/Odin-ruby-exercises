@@ -119,6 +119,7 @@ class LinkedList
     if idx<@size && idx>0
       new_next_node = Node.new(val, fetch_node(idx))
       fetch_node(idx-1).next_node = new_next_node
+      @size += 1
     else
       return nil
     end
@@ -127,11 +128,17 @@ class LinkedList
   def remove_at(idx)
     if idx === 0
       @head = fetch_node(1)
+      @size -= 1
     end
     if idx === @size
       pop
     end
-    idx<@size && idx>0? fetch_node(idx-1).next_node = fetch_node(idx+1):nil
+    if idx<@size && idx>0
+      fetch_node(idx-1).next_node = fetch_node(idx+1)
+      size -= 1
+    else
+      return nil
+    end
   end
 
 end

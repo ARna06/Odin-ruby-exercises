@@ -104,7 +104,11 @@ class HashMap
   end
 
   def has?(key)
-    return get(key).nil? false:true
+    if get(key).nil?
+      return false
+    else
+      return true
+    end
   end
 
   def remove(key)
@@ -113,11 +117,12 @@ class HashMap
       bucket_index = @bucket_population.find_index(index)
 
       i = 0
-      while i<@bucked[bucket_index].size
+      while i<@bucket[bucket_index].size
         if @bucket[bucket_index].at(i).key === key
           @bucket[bucket_index].remove_at(i)
           if @bucket[bucket_index].size === 0
             @bucket_population.delete(index)
+            @bucket.delete(bucket_index)
           end
           break
         end
@@ -164,4 +169,9 @@ class HashMap
     end
     return list
   end
+
+  def length
+    return keys.length
+  end
+
 end
