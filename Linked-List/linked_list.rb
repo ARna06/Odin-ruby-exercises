@@ -33,7 +33,7 @@ class LinkedList
     if @head.value.nil?
       @head.value = val
     else
-      @head = Node.new(value = val, next_node = @head)
+      @head = Node.new(val, @head)
     end
     @size += 1
   end
@@ -117,7 +117,7 @@ class LinkedList
       append(val)
     end
     if idx<@size && idx>0
-      new_next_node = Node.new(value = val, next_node = fetch_node(idx))
+      new_next_node = Node.new(val, fetch_node(idx))
       fetch_node(idx-1).next_node = new_next_node
     else
       return nil
