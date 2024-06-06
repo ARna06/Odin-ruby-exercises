@@ -1,1 +1,1 @@
-# Odin-ruby-exercises
+# Ruby projects
