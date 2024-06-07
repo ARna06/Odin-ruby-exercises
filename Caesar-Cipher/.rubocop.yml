@@ -1,0 +1,14 @@
+AllCops:
+  NewCops: enable
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+
+Metrics/MethodLength:
+  Enabled: False
+
+Metrics/AbcSize:
+  Enabled: False

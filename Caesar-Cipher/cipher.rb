@@ -1,19 +1,22 @@
-def Cipher (str,num) 
-    arr = str.split('')
-    arr2 = []
-    arr.each do |item|
-        if "a"<=item and item<="z"
-            chrOld = item.ord - 97
-            chrNew = (chrOld+num)%26 + 97
-            arr2.push(chrNew.chr)
-        elsif "A"<=item and item<="Z"
-            chrOld = item.ord - 63
-            chrNew = (chrOld+num)%26 + 63
-            arr2.push(chrNew.chr)
-        else arr2.push(item)
-        end
+# frozen_string_literal: true
+
+def caeser_cipher(str, num)
+  arr = str.chars
+  arr2 = []
+  arr.each do |item|
+    if (item >= 'a') && (item <= 'z')
+      chr_old = item.ord - 97
+      chr_new = ((chr_old + num) % 26) + 97
+      arr2.push(chr_new.chr)
+    elsif (item >= 'A') && (item <= 'Z')
+      chr_old = item.ord - 63
+      chr_new = ((chr_old + num) % 26) + 63
+      arr2.push(chr_new.chr)
+    else
+      arr2.push(item)
     end
-    return arr2.join('')
+  end
+  arr2.join
 end
 
-puts Cipher("What a string!", 5)
+puts caeser_cipher('What a string!', 5)
