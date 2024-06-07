@@ -9,6 +9,8 @@ class Game
     @symbols = ['🔵','🔴']
   end
 
+  attr_reader :turn
+
   def board_status(move, location)
     required_column = @board[location-1]
     idx = required_column.index(nil)
@@ -50,14 +52,32 @@ class Game
     end
   end
 
-  def win_checker
-
+  def matching(e1, e2, e3, e4)
+    return !e1.nil? && !e2.nil? && !e3.nil? && !e4.nil? && e1 === e2 && e2 === e3 && e3 === e4
   end
-end
 
-test = Game.new
-7.times do
-  print "Enter your move: "
-  move = gets.chomp.to_i
-  test.get_moves(move)
+  def win_checker
+    checker = Array.new
+    #check vertical matches
+    @board.each do |columns|
+      for i in 0..2
+        checker << matching(columns[i],columns[i+1],columns[i+2],columns[i+3])
+      end
+    end
+    #check horizontal matches
+    for i in 0..5
+      for j in 0..2
+        checker << matching(@board[j][i], @board[j+1][i], @board[j+2][i], @board[j+3][i])
+      end
+    end
+    #check diagonal matches
+    for i in 0..3
+      for j in 0..2
+        checker << matching(@board[i][j], @board[i+1][j+1], @board[i+2][j+2], @board[i+3][j+3])
+        checker << matching(@board[i+3][j],@board[i+2][j+1], @board[i+1][j+2], @board[i][j+3])
+      end
+    end
+
+    return checker.any?(true)
+  end
 end
