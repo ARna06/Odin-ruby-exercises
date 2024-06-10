@@ -15,6 +15,10 @@ class Board
     create_king
   end
 
+  def testing
+    @board = Array.new(8) {Array.new(8)}
+  end
+
   attr_accessor :board
 
   def create_pawns
