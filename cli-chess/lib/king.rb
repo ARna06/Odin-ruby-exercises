@@ -1,7 +1,7 @@
-class Knight
+class King
 
-  NOTATION = ['♘', '♞']
-  LEGAL_MOVES = [[1,2],[2,1],[2,-1],[1,-2],[-1,-2],[-2,-1],[-2,1],[-1,2]]
+  NOTATION = ['♔', '♚']
+  LEGAL_MOVES = [[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0],[-1,1],[0,1]]
 
   def initialize(location, color)
     @location = location

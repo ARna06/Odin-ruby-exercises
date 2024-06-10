@@ -14,7 +14,7 @@ class Pawns
 
   attr_reader :symbol,:location
 
-  def move(to)
+  def move(to, board)
     if @move_number == 0 && (@location[0] - 1 == to[0] || @location[0] - 2 == to[0]) && @symbol == '♙'
       @location[0] = to[0]
       @move_number += 1

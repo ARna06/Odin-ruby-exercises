@@ -1,6 +1,6 @@
-class Rook
+class Queen
 
-  NOTATION = ['♖', '♜']
+  NOTATION = ['♕', '♛']
 
   def initialize(location, color)
     @location = location
@@ -13,8 +13,52 @@ class Rook
     @possible_moves = Array.new
   end
 
+  attr_reader :symbol,:location
+
   def gen_possible_moves(board)
     @possible_moves = Array.new
+
+    #north-east moves
+    y_coord, x_coord = @location[0]-1, @location[1]+1
+    while x_coord < 8 && y_coord >= 0 && board[y_coord][x_coord].nil?
+      @possible_moves << [y_coord, x_coord]
+      x_coord += 1
+      y_coord -= 1
+    end
+    if !board[y_coord][x_coord].nil?
+      @possible_moves << [y_coord, x_coord]
+    end
+    #south-east moves
+    y_coord , x_coord = @location[0]+1, @location[1]+1
+    while x_coord<8 && y_coord < 8 && board[y_coord][x_coord].nil?
+      @possible_moves << [y_coord, x_coord]
+      x_coord += 1
+      y_coord += 1
+    end
+    if !board[y_coord][x_coord].nil?
+      @possible_moves << [y_coord, x_coord]
+    end
+    #south-west moves
+    y_coord , x_coord = @location[0]+1, @location[1]-1
+    while x_coord>=0 && y_coord < 8 && board[y_coord][x_coord].nil?
+      @possible_moves << [y_coord, x_coord]
+      x_coord -= 1
+      y_coord += 1
+    end
+    if !board[y_coord][x_coord].nil?
+      @possible_moves << [y_coord, x_coord]
+    end
+    #north-west moves
+    y_coord , x_coord = @location[0]-1, @location[1]-1
+    while x_coord>=0 && y_coord >=0 && board[y_coord][x_coord].nil?
+      @possible_moves << [y_coord, x_coord]
+      x_coord -= 1
+      y_coord -= 1
+    end
+    if !board[y_coord][x_coord].nil?
+      @possible_moves << [y_coord, x_coord]
+    end
+
     n_coord = @location[0] - 1
     while n_coord >= 0 && board[n_coord][@location[1]].nil?
       @possible_moves << [n_coord, @location[1]]
@@ -48,8 +92,6 @@ class Rook
       @possible_moves << [@location[0], w_coord]
     end
   end
-
-  attr_reader :symbol,:location
 
   def move(to, board)
     gen_possible_moves(board)
