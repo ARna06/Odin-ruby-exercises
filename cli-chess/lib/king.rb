@@ -1,10 +1,14 @@
+require_relative 'helper'
 class King
+
+  include Helpers
 
   NOTATION = ['♔', '♚']
   LEGAL_MOVES = [[1,1],[1,0],[1,-1],[0,-1],[-1,-1],[-1,0],[-1,1],[0,1]]
 
   def initialize(location, color)
     @location = location
+    @color = color
     if color == 'white'
       @symbol = NOTATION[0]
     else
@@ -12,9 +16,10 @@ class King
     end
     @move_number = 0
     @possible_moves = Array.new
+    @attacks = Array.new
   end
 
-  attr_reader :symbol,:location
+  attr_reader :symbol, :location, :attacks, :possible_moves, :color
 
   def gen_possible_moves
     @possible_moves = Array.new
@@ -29,6 +34,8 @@ class King
 
   def move(to, board)
     gen_possible_moves
+    @attacks = Helpers.attacking_positions(@possible_moves, board, @color)
+    @possible_moves = Helpers.clear_possible_moves(@possible_moves, board, @color)
     if @possible_moves.include?(to)
       @location = to
       @move_number += 1
