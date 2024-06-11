@@ -1,4 +1,4 @@
-class Pawns
+class Pawn
 
   NOTATION = ['♙', '♟']
 
@@ -10,28 +10,30 @@ class Pawns
       @symbol = NOTATION[1]
     end
     @move_number = 0
+    @possible_moves = Array.new
   end
 
   attr_reader :symbol,:location
 
+  def gen_possible_moves
+    @possible_moves = Array.new
+    if @symbol == '♙'
+      if @move_number == 0
+        @possible_moves << [@location[0]-2,@location[1]]
+      end
+      @possible_moves << [@location[0]-1,@location[1]]
+    else
+      if @move_number == 0
+        @possible_moves << [@location[0]+2,@location[1]]
+      end
+      @possible_moves << [@location[0]+1,@location[1]]
+    end
+  end
+
   def move(to, board)
-    if @move_number == 0 && (@location[0] - 1 == to[0] || @location[0] - 2 == to[0]) && @symbol == '♙'
-      @location[0] = to[0]
-      @move_number += 1
-      return true
-    end
-    if @move_number != 0 && @location[0] - 1 == to[0] && @symbol == '♙'
-      @location[0] = to[0]
-      @move_number += 1
-      return true
-    end
-    if @move_number == 0 && (@location[0] + 1 == to[0] || @location[0] + 2 == to[0]) && @symbol == '♟'
-      @location[0] = to[0]
-      @move_number += 1
-      return true
-    end
-    if @move_number != 0 && @location[0] + 1 == to[0] && @symbol == '♟'
-      @location = to[0]
+    gen_possible_moves
+    if @possible_moves.include?(to)
+      @location = to
       @move_number += 1
       return true
     end

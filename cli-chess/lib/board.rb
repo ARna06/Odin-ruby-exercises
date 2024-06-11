@@ -22,8 +22,8 @@ class Board
   attr_accessor :board
 
   def create_pawns
-    @board[1] = @board[1].map.with_index {|item, index| item = Pawns.new([1,index],'black')}
-    @board[6] = @board[6].map.with_index {|item, index| item = Pawns.new([6,index],'white')}
+    @board[1] = @board[1].map.with_index {|item, index| item = Pawn.new([1,index],'black')}
+    @board[6] = @board[6].map.with_index {|item, index| item = Pawn.new([6,index],'white')}
   end
 
   def create_knights
