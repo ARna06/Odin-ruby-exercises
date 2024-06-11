@@ -25,7 +25,7 @@ module Bishop_behavior
       x_coord += 1
       y_coord -= 1
     end
-    if !board[y_coord][x_coord].nil?
+    if [*0..7].include?(x_coord) && [*0..7].include?(y_coord) && !board[y_coord][x_coord].nil?
       possible_moves << [y_coord, x_coord]
     end
     #south-east moves
@@ -35,7 +35,7 @@ module Bishop_behavior
       x_coord += 1
       y_coord += 1
     end
-    if !board[y_coord][x_coord].nil?
+    if [*0..7].include?(x_coord) && [*0..7].include?(y_coord) && !board[y_coord][x_coord].nil?
       possible_moves << [y_coord, x_coord]
     end
     #south-west moves
@@ -45,7 +45,7 @@ module Bishop_behavior
       x_coord -= 1
       y_coord += 1
     end
-    if !board[y_coord][x_coord].nil?
+    if [*0..7].include?(x_coord) && [*0..7].include?(y_coord) && !board[y_coord][x_coord].nil?
       possible_moves << [y_coord, x_coord]
     end
     #north-west moves
@@ -55,7 +55,7 @@ module Bishop_behavior
       x_coord -= 1
       y_coord -= 1
     end
-    if !board[y_coord][x_coord].nil?
+    if [*0..7].include?(x_coord) && [*0..7].include?(y_coord) && !board[y_coord][x_coord].nil?
       possible_moves << [y_coord, x_coord]
     end
     return possible_moves

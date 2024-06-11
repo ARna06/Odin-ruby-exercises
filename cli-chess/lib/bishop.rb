@@ -21,10 +21,13 @@ class Bishop
 
   attr_reader :symbol, :location, :attacks, :possible_moves, :color
 
-  def move(to, board)
+  def update(board)
     @possible_moves = Bishop_behavior.bishop_moves(@location, board)
     @attacks = Helpers.attacking_positions(@possible_moves, board, @color)
     @possible_moves = Helpers.clear_possible_moves(@possible_moves, board, @color)
+  end
+
+  def move(to)
     if @possible_moves.include?(to)
       @location = to
       @move_number += 1

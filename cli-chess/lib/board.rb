@@ -13,6 +13,7 @@ class Board
     create_bishops
     create_queen
     create_king
+    updater
   end
 
   def testing
@@ -57,6 +58,16 @@ class Board
     @board[7][4] = King.new([7,4],'white')
   end
 
+  def updater
+    @board.each do |rows|
+      rows.each do |element|
+        if !element.nil?
+          element.update(@board)
+        end
+      end
+    end
+  end
+
   def make_board
     @board.each do |row|
       row.each do |element|
@@ -68,6 +79,25 @@ class Board
       end
       print "\n"
 
+    end
+  end
+
+  def move_options(location)
+    location = location.split('')
+    location.map! { |e| e = e.to_i }
+    #print location
+    return if location.length != 2
+    return if location.any?{|e| e>7 || e <0}
+    item = @board[location[0]][location[1]]
+    updater
+    return if item.nil?
+    print "You've selected a #{item.class}\n"
+    print "The possible moves are: "
+    item.possible_moves.each { |locus| print "#{locus}, " }
+    print "\n"
+    if !item.attacks.empty?
+      print "Attacks can be done at: \n"
+      item.attacks.each { |locus| print "#{locus} : #{@board[locus[0]][locus[1]].class}\n" }
     end
   end
 
@@ -86,7 +116,7 @@ class Board
     #print to
     return if to.length != 2
     return if to.any? {|e| e>7 || e<0 }
-    truthy = item.move(to, @board)
+    truthy = item.move(to)
     if truthy
       @board[location[0]][location[1]] = nil
       @board[to[0]][to[1]] = item
@@ -104,6 +134,7 @@ test.make_board
 3.times do
   print "Select the piece: "
   location = gets.chomp
+  test.move_options(location)
   print "Decide your move: "
   to = gets.chomp
   test.make_move(location, to)

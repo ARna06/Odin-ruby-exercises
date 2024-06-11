@@ -32,10 +32,13 @@ class Knight
     end
   end
 
-  def move(to, board)
+  def update(board)
     gen_possible_moves
     @attacks = Helpers.attacking_positions(@possible_moves, board, @color)
     @possible_moves = Helpers.clear_possible_moves(@possible_moves, board, @color)
+  end
+
+  def move(to)
     if @possible_moves.include?(to)
       @location = to
       @move_number += 1
