@@ -4,7 +4,11 @@ require_relative 'rook'
 require_relative 'bishop'
 require_relative 'queen'
 require_relative 'king'
+require_relative 'helper'
 class Board
+
+  include Helpers
+
   def initialize
     @board = Array.new(8) {Array.new(8)}
     create_pawns
@@ -14,6 +18,7 @@ class Board
     create_queen
     create_king
     updater
+    @turn = 0
   end
 
   def testing
@@ -78,52 +83,38 @@ class Board
         end
       end
       print "\n"
-
     end
   end
 
-  def move_options(location)
-    location = location.split('')
-    location.map! { |e| e = e.to_i }
-    #print location
-    return if location.length != 2
-    return if location.any?{|e| e>7 || e <0}
-    item = @board[location[0]][location[1]]
+  def move_options(input)
     updater
-    return if item.nil?
+    location = IO_handler.input(input, @board)
+    return if location.nil?
+    item = @board[location[0]][location[1]]
+
     print "You've selected a #{item.class}\n"
     print "The possible moves are: "
-    item.possible_moves.each { |locus| print "#{locus}, " }
+    item.possible_moves.each { |locus| print "#{IO_handler.output(locus)}, " }
     print "\n"
     if !item.attacks.empty?
       print "Attacks can be done at: \n"
-      item.attacks.each { |locus| print "#{locus} : #{@board[locus[0]][locus[1]].class}\n" }
+      item.attacks.each { |locus| print "#{IO_handler.output(locus)} : #{@board[locus[0]][locus[1]].class}\n" }
     end
   end
 
   def make_move(location, to)
-    location = location.split('')
-    location.map! { |e| e = e.to_i }
-    #print location
-    return if location.length != 2
-    return if location.any?{|e| e>7 || e <0}
+    location = IO_handler.input(location, @board)
+    to = IO_handler.destination(to)
+    return if location.nil?
+    return if to.nil?
     item = @board[location[0]][location[1]]
-    #p item
-
-    return if item.nil?
-    to = to.split('')
-    to.map! { |e| e.to_i }
-    #print to
-    return if to.length != 2
-    return if to.any? {|e| e>7 || e<0 }
     truthy = item.move(to)
     if truthy
       @board[location[0]][location[1]] = nil
       @board[to[0]][to[1]] = item
-      #print true
+      @turn += 1
     else
-      #print false
-      return nil
+      print "Illegal move!\n"
     end
   end
 end
@@ -131,7 +122,7 @@ end
 test = Board.new
 test.make_board
 
-3.times do
+5.times do
   print "Select the piece: "
   location = gets.chomp
   test.move_options(location)

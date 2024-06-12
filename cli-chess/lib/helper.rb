@@ -100,3 +100,34 @@ module Rook_behavior
     return possible_moves
   end
 end
+
+module IO_handler
+  def self.input(input, board)
+    input = input.split('')
+    return nil if input.length != 2
+    if [*'a'..'h'].include?(input[0]) && [*1..8].include?(input[1].to_i)
+      location = [8-input[1].to_i, input[0].ord-97]
+      if board[location[0]][location[1]].nil?
+        print "The is no piece there!"
+        return nil
+      end
+      return location
+    end
+    print "Enter a valid location!"
+    return nil
+  end
+
+  def self.output(location)
+    return [(location[1]+97).chr, (8-location[0]).to_s].join
+  end
+
+  def self.destination(input)
+    input = input.split('')
+    return nil if input.length != 2
+    if [*'a'..'h'].include?(input[0]) && [*1..8].include?(input[1].to_i)
+      location = [8-input[1].to_i, input[0].ord-97]
+      return location
+    end
+    print "Enter a valid location!"
+  end
+end
