@@ -25,7 +25,7 @@ class Board
     @board = Array.new(8) {Array.new(8)}
   end
 
-  attr_accessor :board
+  attr_accessor :board, :turn
 
   def create_pawns
     @board[1] = @board[1].map.with_index {|item, index| item = Pawn.new([1,index],'black')}
@@ -74,7 +74,11 @@ class Board
   end
 
   def make_board
-    @board.each do |row|
+    temp = @board.dup
+    if !@turn.even?
+      temp.reverse!
+    end
+    temp.each do |row|
       row.each do |element|
         if element.nil?
           print 'X'
@@ -84,6 +88,8 @@ class Board
       end
       print "\n"
     end
+    expected_color = @turn%2 == 0?'white':'black'
+    puts "Turn for #{expected_color}"
   end
 
   def move_options(input)
@@ -91,7 +97,8 @@ class Board
     location = IO_handler.input(input, @board)
     return if location.nil?
     item = @board[location[0]][location[1]]
-
+    expected_color = @turn%2 == 0?'white':'black'
+    return puts "Choose your pieces only!" if item.color != expected_color
     print "You've selected a #{item.class}\n"
     print "The possible moves are: "
     item.possible_moves.each { |locus| print "#{IO_handler.output(locus)}, " }
@@ -100,6 +107,7 @@ class Board
       print "Attacks can be done at: \n"
       item.attacks.each { |locus| print "#{IO_handler.output(locus)} : #{@board[locus[0]][locus[1]].class}\n" }
     end
+    return true
   end
 
   def make_move(location, to)
@@ -108,6 +116,8 @@ class Board
     return if location.nil?
     return if to.nil?
     item = @board[location[0]][location[1]]
+    expected_color = @turn%2 == 0?'white':'black'
+    return if item.color != expected_color
     truthy = item.move(to)
     if truthy
       @board[location[0]][location[1]] = nil
@@ -117,17 +127,4 @@ class Board
       print "Illegal move!\n"
     end
   end
-end
-
-test = Board.new
-test.make_board
-
-5.times do
-  print "Select the piece: "
-  location = gets.chomp
-  test.move_options(location)
-  print "Decide your move: "
-  to = gets.chomp
-  test.make_move(location, to)
-  test.make_board
 end

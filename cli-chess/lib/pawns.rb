@@ -1,9 +1,11 @@
 require_relative 'helper'
+require_relative 'logics'
 class Pawn
 
   NOTATION = ['♙', '♟']
 
   include Helpers
+  include Pawn_specials
 
   def initialize(location, color)
     @location = location
@@ -37,8 +39,8 @@ class Pawn
 
   def update(board)
     gen_possible_moves
-    @attacks = Helpers.attacking_positions(@possible_moves, board, @color)
-    @possible_moves = Helpers.clear_possible_moves(@possible_moves, board, @color)
+    @attacks = Pawn_specials.attacks(@location, board, @color)
+    @possible_moves = Helpers.clear_possible_moves(@possible_moves+@attacks, board, @color)
   end
 
   def move(to)
