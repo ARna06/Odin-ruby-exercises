@@ -40,11 +40,12 @@ class Pawn
   def update(board)
     gen_possible_moves
     @attacks = Pawn_specials.attacks(@location, board, @color)
-    @possible_moves = Helpers.clear_possible_moves(@possible_moves+@attacks, board, @color)
+    @possible_moves.select!{|to| board[to[0]][to[1]].nil?}
+    @possible_moves = Helpers.clear_possible_moves(@possible_moves, board, @color)
   end
 
   def move(to)
-    if @possible_moves.include?(to)
+    if @possible_moves.include?(to) || @attacks.include?(to)
       @location = to
       @move_number += 1
       return true
