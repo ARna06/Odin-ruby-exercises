@@ -54,6 +54,7 @@ GEM
     ruby-progressbar (1.13.0)
     strscan (3.1.0)
     unicode-display_width (2.5.0)
+    yaml (0.3.0)
 
 PLATFORMS
   arm64-darwin-23
@@ -62,6 +63,7 @@ DEPENDENCIES
   rspec (~> 3.13)
   rubocop (~> 1.64)
   rubocop-rspec (~> 2.31)
+  yaml (~> 0.3.0)
 
 BUNDLED WITH
    2.4.10

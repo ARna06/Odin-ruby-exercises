@@ -1,34 +1,34 @@
+# frozen_string_literal: true
+
 require_relative 'helper'
 class Knight
-
   include Helpers
 
-  NOTATION = ['♘', '♞']
-  LEGAL_MOVES = [[1,2],[2,1],[2,-1],[1,-2],[-1,-2],[-2,-1],[-2,1],[-1,2]]
+  NOTATION = ['♘', '♞'].freeze
+  LEGAL_MOVES = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]].freeze
 
   def initialize(location, color)
     @location = location
     @color = color
-    if color == 'white'
-      @symbol = NOTATION[0]
-    else
-      @symbol = NOTATION[1]
-    end
+    @symbol = if color == 'white'
+                NOTATION[0]
+              else
+                NOTATION[1]
+              end
     @move_number = 0
-    @possible_moves = Array.new
-    @attacks = Array.new
+    @possible_moves = []
+    @attacks = []
   end
 
-  attr_reader :symbol, :location, :attacks, :possible_moves, :color
+  attr_reader :symbol, :attacks, :possible_moves, :color
+  attr_accessor :location
 
   def gen_possible_moves
-    @possible_moves = Array.new
+    @possible_moves = []
     LEGAL_MOVES.each do |locus|
       x_coor = locus[0] + @location[0]
       y_coor = locus[1] + @location[1]
-      if [*0..7].include?(x_coor) && [*0..7].include?(y_coor)
-        @possible_moves << [x_coor , y_coor]
-      end
+      @possible_moves << [x_coor, y_coor] if [*0..7].include?(x_coor) && [*0..7].include?(y_coor)
     end
   end
 
@@ -44,6 +44,6 @@ class Knight
       @move_number += 1
       return true
     end
-    return false
+    false
   end
 end
